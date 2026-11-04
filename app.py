@@ -1,6 +1,8 @@
 """낫 TODAY 회의용 프로토타입. 실행: python -m uvicorn app:app --reload"""
 
 from pathlib import Path
+from services.game import GameError, GameService #추가
+from services.harvest_llm import router as harvest_router   #추가
 import secrets
 
 from fastapi import FastAPI, HTTPException, Request, Response
@@ -13,6 +15,7 @@ from services.game import GameError, GameService
 ROOT = Path(__file__).resolve().parent
 app = FastAPI(title="낫 TODAY", version="0.1.0")
 game = GameService()
+app.include_router(harvest_router)  
 COOKIE = "nottoday_session"
 
 
@@ -42,6 +45,10 @@ def session_id(request: Request) -> str:
 @app.get("/")
 def index():
     return FileResponse(ROOT / "templates" / "index.html")
+
+@app.get("/harvest")                                        # ← 추가
+def harvest():
+    return FileResponse(ROOT / "templates" / "harvest.html")
 
 
 @app.get("/health")
