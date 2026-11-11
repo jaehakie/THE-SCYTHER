@@ -1,0 +1,40 @@
+@font-face{font-family:"Galmuri14";src:url("/assets/fonts/Galmuri14.woff2") format("woff2");font-style:normal;font-weight:400;font-display:swap}
+
+body.prep-customization-pages{font:14px/1.8 "Galmuri14","Malgun Gothic",sans-serif;--serif:"Galmuri11","Malgun Gothic",sans-serif;--sans:"Galmuri14","Malgun Gothic",sans-serif}
+body.prep-customization-pages h1,body.prep-customization-pages h2,body.prep-customization-pages h3{font-family:"Galmuri11","Malgun Gothic",sans-serif;font-weight:700}
+body.prep-customization-pages .chapter-header .eyebrow{font:400 10px/1.5 "Galmuri11","Malgun Gothic",sans-serif;letter-spacing:.17em;color:#bd862d}
+body.prep-customization-pages .chapter-header .chapter-prefix,body.prep-customization-pages .chapter-header .header-actions{display:none}
+body.prep-customization-pages .dossier-label,body.prep-customization-pages .prep-notice{font:400 12px/1.6 "Galmuri11","Malgun Gothic",sans-serif}
+body.prep-customization-pages .primary,body.prep-customization-pages .secondary,body.prep-customization-pages .player-gender legend,body.prep-customization-pages .player-choice,body.prep-customization-pages .player-name-label{font-family:"Galmuri11","Malgun Gothic",sans-serif;font-weight:700}
+
+.prep-notice-mark{display:block;width:16px;height:16px;flex:none;border-radius:2px;background:#ffd477;box-shadow:0 0 14px #ffc653,0 0 24px #ffc65366}
+.prep-step-frame{justify-content:space-between}
+.prep-step-content{display:flex;flex:1;min-height:0;flex-direction:column;align-items:center;justify-content:center;padding:22px 14px;text-align:center}
+.prep-emblem{display:grid;place-items:center;width:134px;height:134px;margin:0 auto 19px;border:1px solid #b77a25;border-radius:50%;background:#07172a;box-shadow:0 0 26px #fbaa3430,inset 0 0 22px #dc8c2822}
+.prep-emblem img{width:103px;height:103px;object-fit:contain;filter:drop-shadow(0 0 12px #ffbf4e66)}
+.prep-step-content h2{margin:0 0 12px;color:#ffd477;font-size:27px;text-shadow:0 0 13px #ffc14c66}
+.prep-step-content>p:last-child{max-width:300px;margin:0;color:#dbc188;font-size:14px;line-height:1.9}
+.prep-guide-content{display:flex;flex-direction:column;justify-content:center;gap:14px}
+.guide-card{padding:18px 17px;border:1px solid #9a6925;border-radius:9px;background:#07172a;box-shadow:0 0 14px #ffad2b1c}
+.guide-card .dossier-label{margin-bottom:3px}
+.guide-card h2{margin-bottom:7px;color:#ffd477;font-size:18px}
+.guide-card p{margin:0;color:#e1ca94;font-size:12px;line-height:1.8;word-break:keep-all}
+.player-preview{display:flex;align-items:center;gap:17px;padding:7px 4px 17px;border-bottom:1px solid #e49a25}
+.player-preview>img{width:102px;height:126px;flex:none;object-fit:cover;object-position:center 25%;border:1px solid #f7ad30;padding:3px;box-shadow:0 0 16px #ffb13736}
+.player-preview h2{margin:2px 0 3px;color:#ffd477;font-size:clamp(20px,5vw,25px);text-shadow:0 0 14px #ffc14c88}
+.player-preview p{margin:0;color:#c49337;font-size:12px;word-break:keep-all}
+.player-gender{display:grid;grid-template-columns:1fr 1fr;gap:12px;border:0;padding:0;margin:0 0 16px;min-width:0}
+.player-gender legend{grid-column:1/-1;padding:0 0 8px;color:#dca23b;font-size:12px;font-weight:700}
+.player-choice{display:flex;flex-direction:column;align-items:center;gap:7px;min-width:0;padding:8px;border:1px solid #71501f;border-radius:8px;background:#07182c;color:#ddb04f;font-weight:700}
+.player-choice img{width:100%;height:128px;object-fit:cover;object-position:center 24%;border:1px solid #49381f;filter:saturate(.82)}
+.player-choice[aria-pressed="true"]{border-color:#ffd477;color:#ffe0a0;box-shadow:0 0 17px #ffb53645,inset 0 0 0 1px #ffd477}
+.player-choice[aria-pressed="true"] img{border-color:#f4ad35;filter:saturate(1)}
+.player-name-label{display:block;margin:0 0 6px;color:#dca23b;font-size:12px;font-weight:700}
+.player-name-field{width:100%;padding:12px 14px;border:1px solid #a97522;border-radius:7px;background:#06172a;color:#ffe0a0;font-size:16px}
+.player-name-field::placeholder{color:#8c703d}
+.player-name-actions{display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px;margin-top:10px}
+.player-name-actions .secondary{width:auto;min-height:42px;padding:8px 12px;font-size:12px}
+.player-name-actions .text-button{min-height:42px;padding:8px 10px;white-space:nowrap}
+.player-setup-hint{margin:8px 0 0;color:#b58a3e;font-size:11px}
+
+@media(max-width:370px){.prep-emblem{width:116px;height:116px}.prep-emblem img{width:90px;height:90px}.guide-card{padding:15px}}
