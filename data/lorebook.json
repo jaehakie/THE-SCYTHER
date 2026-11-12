@@ -1,0 +1,226 @@
+{
+  "source": "https://www.figma.com/board/7XJ1rpdICFzhz8hi8B76Ar/",
+  "entries": [
+    {
+      "id": "harvest",
+      "title": "수확의 세계",
+      "keywords": [
+        "수확",
+        "죽음",
+        "계율",
+        "면책",
+        "운명"
+      ],
+      "scenes": [
+        "mentor",
+        "knock",
+        "waiting",
+        "entry_plea",
+        "conversation",
+        "allegation",
+        "cup_ring",
+        "wife_tears"
+      ],
+      "requires_clues": [],
+      "status": "board",
+      "source_nodes": [
+        "58:473",
+        "58:477",
+        "58:481",
+        "58:485",
+        "58:489"
+      ],
+      "content": "사람은 더 이상 늙거나 병들어 죽지 않는 세계다. 수확자가 죽음을 맡고 계율에 따라 사람을 거둔다. 방문자는 수습 수확자다. 세부 제도나 최종 판단은 이 장면에서 확정하지 않는다."
+    },
+    {
+      "id": "family",
+      "title": "남겨질 가족",
+      "keywords": [
+        "가족",
+        "아내",
+        "딸",
+        "아이",
+        "부모",
+        "한민지",
+        "영지",
+        "서진",
+        "사진"
+      ],
+      "scenes": [
+        "knock",
+        "waiting",
+        "entry_plea",
+        "conversation",
+        "allegation",
+        "cup_ring",
+        "wife_tears"
+      ],
+      "requires_clues": [],
+      "status": "board",
+      "source_nodes": [
+        "60:598"
+      ],
+      "content": "아내 한민지는 2년 전 수확으로 사망했다. 이윤제는 13세 이영지와 11세 이서진을 혼자 돌본다. 가족사진에는 아내와 두 딸이 함께 있다."
+    },
+    {
+      "id": "birthday",
+      "title": "달력과 일상",
+      "keywords": [
+        "달력",
+        "생일",
+        "일정",
+        "땅콩",
+        "브로콜리",
+        "내일"
+      ],
+      "scenes": [
+        "conversation",
+        "allegation",
+        "cup_ring",
+        "wife_tears"
+      ],
+      "requires_clues": [
+        "calendar"
+      ],
+      "status": "board",
+      "source_nodes": [
+        "49:2902",
+        "120:1331",
+        "120:1594"
+      ],
+      "content": "장면 날짜는 2042년 10월 3일이다. 내일 10월 4일은 큰딸 생일이다. 큰딸은 땅콩 알레르기가 있고 작은딸은 브로콜리를 싫어한다. 달력에는 가족을 챙기는 메모가 빼곡하다. 요일은 자료 간 대조가 필요하므로 단정하지 않는다."
+    },
+    {
+      "id": "work",
+      "title": "공장 업무",
+      "keywords": [
+        "공장",
+        "점검",
+        "노동",
+        "직장",
+        "책임"
+      ],
+      "scenes": [
+        "conversation",
+        "allegation",
+        "cup_ring",
+        "wife_tears"
+      ],
+      "requires_clues": [
+        "calendar"
+      ],
+      "status": "board",
+      "source_nodes": [
+        "5:3",
+        "120:1331"
+      ],
+      "content": "이윤제는 중공업 공장 노동자다. 10월 13~15일은 안전점검, 31일은 공장 월별 점검 총책임 일정이다. 범죄 기록이 없다는 통계 기록은 모든 의혹이 거짓임을 입증하는 자료가 아니다."
+    },
+    {
+      "id": "health",
+      "title": "서랍의 병원 기록",
+      "keywords": [
+        "병",
+        "건강",
+        "검진",
+        "서랍",
+        "폐암",
+        "영수증",
+        "미납"
+      ],
+      "scenes": [
+        "conversation",
+        "allegation",
+        "cup_ring",
+        "wife_tears"
+      ],
+      "requires_clues": [
+        "drawer1"
+      ],
+      "status": "board",
+      "source_nodes": [
+        "120:1985",
+        "120:2192",
+        "120:1331"
+      ],
+      "content": "서랍 1에 영수증·미납 고지서와 폐암 말기 건강검진 기록이 있다. 이윤제는 아이들에게는 말하지 말아 달라고 한다. 달력에는 10월 9일 병원 2차 검진이 있다. 생존율, 치료법 등 자료에 없는 의학 정보는 만들지 않는다."
+    },
+    {
+      "id": "letter",
+      "title": "찢긴 편지",
+      "keywords": [
+        "편지",
+        "서랍",
+        "과거",
+        "2년",
+        "사과",
+        "찢"
+      ],
+      "scenes": [
+        "conversation",
+        "allegation",
+        "cup_ring",
+        "wife_tears"
+      ],
+      "requires_clues": [
+        "drawer2"
+      ],
+      "status": "board",
+      "source_nodes": [
+        "51:3372",
+        "120:2259"
+      ],
+      "content": "서랍 2에는 보내지 못한 종이 편지가 있다. 보이는 부분은 ‘그때 내가 그런 일을 저질러서 미안하다. 내가 2년 전…’이며 뒤는 찢겨 있다. 수신인과 사건의 세부 내용은 공개되지 않았다. 이윤제는 2년 전 일은 말하기 어렵다고 한다."
+    },
+    {
+      "id": "mail",
+      "title": "잠긴 감찰 메일",
+      "keywords": [
+        "메일",
+        "감찰",
+        "컴퓨터",
+        "동료",
+        "비밀번호",
+        "본문"
+      ],
+      "scenes": [
+        "conversation",
+        "allegation",
+        "cup_ring",
+        "wife_tears"
+      ],
+      "requires_clues": [
+        "computer"
+      ],
+      "status": "board",
+      "source_nodes": [
+        "51:3443",
+        "120:2345"
+      ],
+      "content": "컴퓨터에 동료가 보낸 읽지 않은 메일 제목 ‘다음 주 본사에서 감찰부 온대, 조심…’이 보인다. 비밀번호로 본문은 열 수 없다. 메일 제목만으로 잘못이나 감찰의 결과를 확정할 수 없다."
+    },
+    {
+      "id": "later_allegation",
+      "title": "후반 의혹 기록 — 첫 대화 비공개",
+      "keywords": [
+        "의혹",
+        "후배",
+        "괴롭힘",
+        "성희롱",
+        "감찰"
+      ],
+      "scenes": [
+        "allegation",
+        "cup_ring",
+        "wife_tears"
+      ],
+      "requires_clues": [],
+      "status": "board",
+      "source_nodes": [
+        "104:855",
+        "106:1108"
+      ],
+      "content": "대화 마무리 후 스승이 AI정보관리부의 새로운 직장 내 괴롭힘·성희롱 의혹 기록을 전달한다. 스승도 사실 여부는 모른다고 전제한다. 첫 거실 대화에서는 이 기록을 공개하지 않는다."
+    }
+  ]
+}

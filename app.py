@@ -7,12 +7,17 @@ from fastapi import FastAPI, HTTPException, Request, Response
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
+from dotenv import load_dotenv
 
 from services.game import GameError, GameService
+from services.character import CharacterDialogue
 
 ROOT = Path(__file__).resolve().parent
+# Also support the ordinary `uvicorn app:app` command. Explicit process
+# environment wins over local development settings.
+load_dotenv(ROOT / ".env", override=False)
 app = FastAPI(title="낫 TODAY", version="0.1.0")
-game = GameService()
+game = GameService(dialogue=CharacterDialogue())
 COOKIE = "nottoday_session"
 
 
@@ -20,11 +25,13 @@ class Action(BaseModel):
     action: str = Field(min_length=1, max_length=40)
     value: str = Field(default="", max_length=2000)
     revision: int = Field(ge=0)
+    request_id: str | None = Field(default=None, min_length=1, max_length=80, pattern=r"^[A-Za-z0-9_-]+$")
 
 
 class Chat(BaseModel):
     message: str = Field(min_length=1, max_length=2000)
     revision: int = Field(ge=0)
+    request_id: str | None = Field(default=None, min_length=1, max_length=80, pattern=r"^[A-Za-z0-9_-]+$")
 
 
 @app.exception_handler(GameError)
@@ -41,12 +48,17 @@ def session_id(request: Request) -> str:
 
 @app.get("/")
 def index():
+    return FileResponse(ROOT / "templates" / "start.html")
+
+
+@app.get("/play")
+def play():
     return FileResponse(ROOT / "templates" / "index.html")
 
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "dialogue_mode": "scripted_demo"}
+    return {"status": "ok", "dialogue_mode": game.dialogue.mode if game.dialogue else "scripted_demo"}
 
 
 @app.post("/api/game")
@@ -66,13 +78,15 @@ def current(request: Request, response: Response):
 
 
 @app.post("/api/action")
-def action(payload: Action, request: Request):
-    return game.act(session_id(request), payload.action, payload.value, payload.revision)
+def action(payload: Action, request: Request, response: Response):
+    response.headers["Cache-Control"] = "no-store"
+    return game.act(session_id(request), payload.action, payload.value, payload.revision, payload.request_id)
 
 
 @app.post("/api/chat")
-def chat(payload: Chat, request: Request):
-    return game.act(session_id(request), "chat", payload.message, payload.revision)
+def chat(payload: Chat, request: Request, response: Response):
+    response.headers["Cache-Control"] = "no-store"
+    return game.act(session_id(request), "chat", payload.message, payload.revision, payload.request_id)
 
 
 app.mount("/assets", StaticFiles(directory=ROOT / "public" / "assets"), name="assets")
