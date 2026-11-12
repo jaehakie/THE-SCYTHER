@@ -65,9 +65,9 @@ OBJECTS = {
                "text": "화목한 가족사진이 보인다. 이윤제와 아내, 두 딸이 함께 웃고 있다."},
     "drawer1": {"title": "서랍 1", "image": "drawer1", "extra_image": "diagnosis", "x": 35, "y": 39,
                 "text": "영수증과 미납 고지서 사이에 건강검진 기록이 있다."},
-    "drawer2": {"title": "서랍 2", "image": "drawer2", "x": 35, "y": 47,
+    "drawer2": {"title": "서랍 2", "image": "drawer2", "x": 35, "y": 44,
                 "text": "보내지 못한 편지. ‘그때 내가 그런 일을 저질러서 미안하다. 내가 2년 전…’ 뒤는 찢어져 내용을 알 수 없다."},
-    "computer": {"title": "컴퓨터", "image": "computer", "x": 84, "y": 35,
+    "computer": {"title": "컴퓨터", "image": "computer", "x": 91.5, "y": 40.5,
                  "text": "동료의 읽지 않은 메일 제목이 보인다. ‘다음 주 본사에서 감찰부 온대, 조심…’ 비밀번호 때문에 본문은 열 수 없다."},
 }
 

@@ -432,6 +432,19 @@ function explorationVisualHTML() {
     '" aria-label="랜턴 ' + (state.lantern_on ? "끄기" : "켜기") + '" title="랜턴 ' + (state.lantern_on ? "끄기" : "켜기") + '"></button></div>';
 }
 
+function positionHotspotSignals() {
+  const room = screen.querySelector('.room');
+  if (!room || !state?.objects) return;
+  for (const object of state.objects) {
+    const button = room.querySelector('[data-inspect="' + object.id + '"]');
+    if (button) {
+      // Keep the marker on the artwork while the 44px touch targets stay apart.
+      const offset = room.clientHeight * object.y / 100 - button.offsetTop;
+      button.style.setProperty('--signal-offset-y', offset + 'px');
+    }
+  }
+}
+
 function intelHTML() {
   return '<figure class="record-art intel-record hologram-record" data-hologram-key="' + esc(state.scene_id + ':' + state.image) + '" data-hologram-after-dialogue="intel" hidden aria-label="스승의 추가 정보 기록"><button class="message-picture" data-image="' + esc(state.image) + '" aria-label="스승의 추가 정보 크게 보기">' +
     picture(state.image, "수확령 · 스승의 추가 정보 수신", "inline-image document-image") + '</button>' +
@@ -751,6 +764,7 @@ function render(moved = false) {
   if (state.stage !== "intel") prepareHologram();
   endingSaveStatus();
   updateClock();
+  positionHotspotSignals();
   updateProgressionControls();
 }
 
@@ -1108,10 +1122,12 @@ document.addEventListener("visibilitychange", () => {
 });
 document.addEventListener("load", event => {
   const image = event.target;
+  if (image instanceof HTMLImageElement && image.closest('.room')) positionHotspotSignals();
   if (image instanceof HTMLImageElement && image.closest(".scene-visual, .intro-frame, .silent-frame")) {
     image.classList.toggle("portrait-image", image.naturalHeight > image.naturalWidth);
   }
 }, true);
+window.addEventListener('resize', positionHotspotSignals);
 setInterval(updateClock, 200);
 setInterval(poll, 800);
 load();

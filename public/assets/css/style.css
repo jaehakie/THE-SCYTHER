@@ -81,6 +81,7 @@ dialog.rules-dialog { max-width: 1080px; width: calc(100% - 24px); }
 .room .hotspot::before { content: ""; position: absolute; left: 50%; top: 50%; width: 8px; height: 8px; margin: 0; border: 1px solid #ffe3a5; border-radius: 50%; background: #ffad42; box-shadow: 0 0 8px #ffad4280; transform: translate(-50%, -50%); pointer-events: none; }
 .room .hotspot::after { content: ""; position: absolute; left: 50%; top: 50%; width: 21px; height: 21px; border: 1.5px solid #ffb750; border-radius: 50%; opacity: 0; transform: translate(-50%, -50%) scale(.55); animation: exploration-signal 2.8s ease-out var(--pulse-delay, 0s) infinite; pointer-events: none; }
 .room .hotspot:focus-visible { outline: 2px solid #ffd58b; outline-offset: 1px; }
+.room .hotspot::before, .room .hotspot::after { top: calc(50% + var(--signal-offset-y, 0px)); }
 .room .hotspot:hover::before, .room .hotspot:focus-visible::before { background: #ffcd79; box-shadow: 0 0 12px #ffad42b0; }
 .room .hotspot.found::before { background: #b89a68; border-color: #decba7; box-shadow: 0 0 4px #d8b77e50; }
 .room .hotspot.found::after { animation: none; opacity: 0; }
