@@ -7,3 +7,9 @@
 *.md text eol=lf
 *.txt text eol=lf
 *.png binary
+*.jpg binary
+*.mp4 binary
+*.mp3 binary
+*.ttf binary
+*.woff binary
+*.woff2 binary

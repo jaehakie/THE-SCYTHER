@@ -15,3 +15,38 @@ reference/qa/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Local planning, captures and exploratory scripts; preserve these on disk.
+/reference/
+/docs/
+/design-qa.md
+/scripts/*
+!/scripts/check_assets.py
+!/scripts/verify_ui.py
+!/scripts/verify_scene_completion_ui.py
+
+# Superseded artwork and fonts not referenced by the shipped game.
+/public/assets/start-screen/fonts/
+/public/assets/images/figjam/
+/public/assets/images/스승과 대화/02_스승 복사본.png
+/public/assets/images/스승과 대화/03-04_이윤제_초상 복사본.png
+/public/assets/images/스승과 대화/수확자_남_옆모습 복사본.png
+/public/assets/images/스승과 대화/수확자_여_옆모습 복사본.png
+/public/assets/images/이윤제씨와 대화/11_서랍속편지.png
+/public/assets/images/이윤제씨와 대화/composite 복사본.png
+/public/assets/images/이윤제씨와 대화/hf_20261028_021156_2cfea10a-9bb9-4333-979b-845152d956c1 (1).png
+/public/assets/images/이윤제씨와 대화/hf_20261028_021156_a5c7a6f3-c928-4e17-ab5f-d39e2e574688.png
+/public/assets/images/이윤제씨와 대화/hf_20261102_160207_084b7e22-53b2-479d-8861-24e192584d4f.png
+/public/assets/images/이윤제씨와 대화/거실_머그제거.png
+/public/assets/images/이윤제씨와 대화/스크린샷 2026-11-02 18.22.02.png
+/public/assets/images/자유탐색/hf_20261028_021156_a5c7a6f3-c928-4e17-ab5f-d39e2e574688.png
+/public/assets/images/자유탐색/스크린샷 2026-11-02 18.22.02.png
+/public/assets/images/준비(이미지)/02_스승 초상.png
+/public/assets/images/준비(이미지)/03-04_이윤제_초상 복사본.png
+/public/assets/images/준비(이미지)/수확자_남_옆모습 복사본.png
+/public/assets/images/준비(이미지)/수확자_여_옆모습 복사본.png
+/public/assets/images/집 방문_게임 시작/hf_20261102_093827_659f49ac-c4d7-4fbf-8075-e8a3a2ca289c.png
+/public/assets/images/집 방문_게임 시작/거실_머그제거.png
+/public/assets/images/프로필 이미지_커스텀 마이징 인물/수확자_남_옆모습.png
+/public/assets/images/프로필 이미지_커스텀 마이징 인물/수확자_여_옆모습.png
+/public/assets/sounds/챗봇 효과음/조용해지자,이윤제씨가 아무 말 없이 당신을 안으로 들인다..mp3
