@@ -164,5 +164,5 @@ def build_ending_scenes(scene):
     step("ending_bad_motto", "인류를 위해", "logo", [("narrator", "인류를 위해 봉사하리라.")], "ending_bad_fade", video=video_url("수확령_로고_영상.mp4"))
     step("ending_bad_fade", "사라지는 수확령", "logo", [], "result_bad", video=video_url("reversed.mp4"))
     step("result_bad", "선택을 포기한 수확자", "bad_result", [], stage="bad_result")
-    step("ending_reflection", "당신의 선택이 만든 색", "logo", [("narrator", "인간은 자신이 내린 선택으로 만들어진다."), ("narrator", "나는 무엇에 가치를 두고 선택하며, 그 선택으로 어떤 색의 삶을 살아가고 있는가?")], stage="reflection")
+    step("ending_reflection", "당신의 선택이 만든 색", "reflection_logo", [("narrator", "인간은 자신이 내린 선택으로 만들어진다."), ("narrator", "나는 무엇에 가치를 두고 선택하며, 그 선택으로 어떤 색의 삶을 살아가고 있는가?")], stage="reflection")
     return result

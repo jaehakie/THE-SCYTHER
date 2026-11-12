@@ -7,6 +7,7 @@ ASSETS = {
     "mentor": "프로필 이미지_커스텀 마이징 인물/02_스승.png",
     "yoonje": "프로필 이미지_커스텀 마이징 인물/03-04_이윤제_초상.png",
     "logo": "준비(이미지)/수확령_로고.png",
+    "reflection_logo": "reflection-logo-transparent.png",
     "eye_logo": "준비(이미지)/hf_20261103_061016_577b1f0f-e607-4de7-ab4d-59c77d3f47e6.png",
     "intro1": "준비(이미지)/인트로 1_늙어죽지않는다.png",
     "intro2": "준비(이미지)/인트로 2_죽음은사라졌다.png",
