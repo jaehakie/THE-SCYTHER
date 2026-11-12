@@ -6,8 +6,8 @@
 - Stack: HTML/CSS/JavaScript + Python/FastAPI. Deployment target: Render.
 - Preserve the team's supplied Notion mockup design unless the user requests a redesign.
 - First scenario: 이윤제. Keep the other two candidate slots empty.
-- Dialogue is currently a scripted demo; do not claim a real model or persistent database is connected.
-- Timer rules, unrestricted actions, detailed world rules, and final classification criteria require the team's decisions. Do not invent them as finalized requirements.
+- Dialogue supports a server-side LLM and an explicit mock mode. State which mode was actually tested; do not claim a persistent database is connected.
+- Preserve the team's confirmed timer, clue and ending rules in services/story.py and services/endings.py. Do not invent additional finalized world rules or classification criteria.
 
 ## Commits and collaboration
 

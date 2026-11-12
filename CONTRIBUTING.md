@@ -43,7 +43,7 @@ GitHub에서 해당 브랜치 → `main` Pull Request를 열고, 변경 내용�
 ## 프로듀서 콘텐츠 전달
 
 - 장면·단서·인물 이미지에는 고유 ID, 사용 장면, 공개 조건, 설명, 파일 버전을 함께 전달합니다.
-- `reference/assets.json`에서 현재 이미지와 원본 참조를 확인할 수 있습니다.
+- `services/story.py`, `services/endings.py`, `public/assets/audio/audio-config.json`에서 실제 사용 자료를 확인합니다. 자료 변경 후 `python scripts/check_assets.py`로 참조와 파일명을 검증합니다.
 - 스토리에서 확정한 사실과 검토 중인 설정을 구분합니다. 확인되지 않은 의혹을 확정 사실로 바꾸지 않습니다.
 - 큰 원본 영상 등은 코드 저장소에 무조건 추가하지 말고 공유 위치와 실제 게임용 파일을 구분합니다. GitHub에 올리기 전 파일 크기를 확인합니다.
 

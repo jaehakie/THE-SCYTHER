@@ -1,115 +1,128 @@
-# NOT-TODAY · 낫 TODAY
+# THE SCYTHER · 낫 TODAY
 
-이윤제와 대화하고 집 안의 단서를 확인한 뒤 수확 여부를 판단하는 회의용 프로토타입입니다.
-팀 공유 저장소: [jaehakie/NOT-TODAY](https://github.com/jaehakie/NOT-TODAY) (private).
-HateSlop 베이스를 참고해 HTML/CSS/JavaScript와 FastAPI로 새로 구현했습니다.
-배포 플랫폼은 Render로 정했으며, 아직 배포하지 않았습니다.
+『수확자(Scythe)』를 바탕으로 만든 HateSlop 학회 프로젝트입니다. 수습 수확자가 되어 이윤제의 집을 탐색하고, 인물과 대화하며 단서를 모은 뒤 최종 판단과 엔딩까지 진행합니다.
 
-## 팀원이 처음 받는 방법
+저장소: [jaehakie/THE-SCYTHER](https://github.com/jaehakie/THE-SCYTHER)
 
-저장소 collaborator 초대를 수락하고 본인의 GitHub 계정으로 인증한 뒤 받으세요.
+## 주요 기능
+
+- 팀이 제공한 시작 화면에서 START를 누르면 준비 장면부터 새 임무를 시작합니다.
+- 입력창이 있는 8개 장면에서 스승·이윤제와 자유대화하고, 명확한 선택 의도는 기존 분기로 연결합니다.
+- Character Card, 현재 장면, 공개 가능한 관련 Lorebook, 같은 상대와 나눈 최근 6턴을 답변에 반영합니다.
+- 물건 탐색, 단서 노트, 경고, 서버 기준 3초 무음 장면과 60초 최종 판단을 제공합니다.
+- 최종 선택·단서·경고·보고에 따른 엔딩과 수확일지를 연결합니다. 배드엔딩은 엔딩 모음에 넣지 않습니다.
+- 대사 타이핑·상황 설명 페이드인·영상·홀로그램이 완료된 뒤 계속·선택·대화 전송을 활성화합니다.
+- 이전 장면 다시 보기는 선택·단서·경고 등 진행 기록을 유지합니다.
+- 장면별 이미지·영상·음향, 음소거, 계율 다시 보기, 브라우저에 보관하는 엔딩 모음을 제공합니다.
+
+화면은 HTML/CSS/JavaScript, 서버는 Python/FastAPI입니다. 생성 모드는 서버 환경변수로 설정하며, `mock`은 키 없이 연결을 확인하는 명시적인 모의 응답 모드입니다.
+
+## 로컬 실행
+
+Python 3.11 환경에서 검증했습니다. `.python-version`도 3.11을 지정합니다.
 
 ```powershell
-git clone https://github.com/jaehakie/NOT-TODAY.git
-cd NOT-TODAY
-```
-
-이후 아래 실행 명령을 사용합니다. 작업을 합치는 방법과 커밋 규칙은 [CONTRIBUTING.md](CONTRIBUTING.md)에 있습니다.
-
-## 실행
-
-Python 3.11 이상을 사용합니다. Windows PowerShell에서 현재 폴더를 열고 실행하세요.
-
-```powershell
+git clone https://github.com/jaehakie/THE-SCYTHER.git
+cd THE-SCYTHER
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
+Copy-Item .env.example .env
 .\.venv\Scripts\python.exe -m uvicorn app:app --reload
 ```
 
-브라우저에서 <http://127.0.0.1:8000>을 엽니다. 종료는 터미널에서 `Ctrl+C`입니다.
-다음부터는 마지막 명령만 실행하면 됩니다. 실제 모델 API 키는 필요하지 않습니다.
+브라우저에서 <http://127.0.0.1:8000>을 엽니다. 서버를 닫을 때는 실행한 터미널에서 `Ctrl+C`를 누릅니다. 기존 `.env`가 있다면 복사로 덮어쓰지 말고 필요한 항목만 수정하세요.
 
-macOS/Linux에서는 가상환경 Python 경로만 바꿉니다.
+macOS/Linux:
 
 ```bash
 python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
+cp .env.example .env
 .venv/bin/python -m uvicorn app:app --reload
 ```
 
-## 화면 미리보기
+## 환경변수
 
-노션 목업의 검은 배경·금색 버튼·명조체 제목과 팀이 제공한 이미지를 사용합니다.
+`app.py`가 루트의 `.env`를 시작할 때 읽습니다. 프로세스 환경변수가 우선합니다. `.env`를 바꾼 뒤에는 서버를 재시작하세요. API 키는 서버에서만 사용하며 Git에 올리지 않습니다.
 
-| 이윤제와 대화 | 집 안 탐색 |
+| 변수 | 값 |
 | --- | --- |
-| <img src="docs/screenshots/conversation-mobile.png" alt="이윤제와 대화하는 모바일 화면" width="260"> | <img src="docs/screenshots/explore-mobile.png" alt="집 안의 물건을 조사하는 모바일 화면" width="260"> |
+| `CHAT_MODE` | `openai` 또는 `mock`. 미설정 시 `openai`, `.env.example`은 `mock` |
+| `OPENAI_API_KEY` | `openai` 모드에서 필요한 API 키 |
+| `OPENAI_MODEL` | 팀이 선택한 `gpt-6-luna`; 이용 가능한 모델 ID로 교체 가능 |
+| `LLM_TIMEOUT_SECONDS` | 기본 45초, 허용 1~50초. 브라우저 요청 제한은 60초 |
 
-## 회의 시연 순서
+실제 생성 답변은 `CHAT_MODE=openai`, 유효한 키와 모델이 필요합니다. 키가 없거나 요청에 실패하면 오류를 표시하고 같은 입력으로 재시도할 수 있으며, 모의 응답으로 자동 전환하지 않습니다. `GET /health`의 `dialogue_mode`는 설정 모드이며 모델 API의 가용성 검사 결과는 아닙니다.
 
-1. 이윤제 정보 열람 → 기록을 읽고 스승에게 질문 → 이윤제의 집으로 이동합니다.
-2. 제안 질문을 누르거나 직접 입력해 대화합니다. Enter 전송, Shift+Enter 줄바꿈입니다.
-3. 집 탐색 탭에서 달력·사진·서랍 등을 눌러 확인하고 단서 노트를 엽니다.
-4. ‘진단서에 대해 말씀해주세요’, ‘서랍을 열어본다’ 등을 입력해 단서에 따른 반응을 확인합니다.
-5. 스승의 추가 기록을 확인하고 의혹을 직접 묻습니다. 기록은 사실로 확정하지 않습니다.
-6. 판단 내리기 → 최종 선택 → 선택 확정 → 결과를 확인합니다.
+## Render 배포
 
-## 구현 상태와 한계
+이 저장소는 Render 배포를 준비한 상태이며, GitHub 업로드만으로 Render 서비스가 생성되지는 않습니다.
 
-- **실제 LLM을 아직 연결하지 않았습니다.** `services/dialogue.py`의 주제·키워드 기반 예시 대화입니다. 메뉴와 입력창 아래에도 예시 모드를 표시합니다. 임의의 모든 질문을 이해하지는 못합니다.
-- 자유 입력과 제안 질문, 직전 대화 주제에 대한 후속 응답, 단서 확인 여부, 추가 정보 공개 여부를 반영합니다.
-- 최종 선택은 확인 버튼을 거쳐 서버가 확정합니다. 유형은 최종 선택으로, 설명은 확인한 단서 목록으로 정합니다. 유형은 회의 후 변경 가능합니다.
-- 커스터마이징, 실제 타이머, 다른 대상자, 복잡한 자유 행동, 후속 회차는 제외했습니다.
-- 기록은 무작위 HttpOnly 쿠키로 구분하며 **서버 메모리에 임시 저장**합니다. 같은 서버 실행 중 새로고침은 가능하지만, 서버 재시작·자동 재시작·다중 프로세스에서는 유지되지 않습니다. 공개 서비스용 저장 방식이 아닙니다.
-- 사용자당 100회 대화, 12시간 세션, 최대 500세션으로 제한합니다. 운영용 요청 제한·인증은 별도 작업입니다.
-- PostgreSQL, 실제 모델 호출과 실제 배포는 아직 진행하지 않았습니다.
-- Figma로 전달된 최신 스토리는 아직 읽고 대조하지 못했습니다. 현재 내용은 기존 Notion 기획을 기준으로 합니다.
+Render에서 **New → Web Service**로 이 저장소의 `main`을 연결합니다.
 
-## 구성
+| 항목 | 설정 |
+| --- | --- |
+| Runtime | Python 3 |
+| Root Directory | 저장소 최상위이므로 비워두기 |
+| Build Command | `pip install -r requirements.txt` |
+| Start Command | `python -m uvicorn app:app --host 0.0.0.0 --port $PORT --workers 1` |
+| Health Check Path | `/health` |
+| Instance Type | 첫 시연은 Free로 시작 가능 |
+| Auto Deploy | 처음에는 Off로 두고 필요한 시점에 수동 배포 |
 
-- `app.py`: 화면 제공, FastAPI 요청 검증, 세션 쿠키
-- `services/game.py`: 장면 전환·단서 공개·선택·결과, 임시 저장소
-- `services/dialogue.py`: 회의용 예시 대화, 향후 모델 연결 경계
-- `templates/index.html`: 화면 진입점
-- `public/assets/css/style.css`, `public/assets/js/app.js`: 목업에 맞춘 화면과 상호작용
-- `public/assets/images/`: Notion에서 제공된 장면 원본
-- `reference/`: 디자인 대조용 목업. 웹으로 공개하지 않습니다.
-- `reference/assets.json`: 이미지 로컬 파일명과 Notion 원본 참조의 대응표
-- `docs/screenshots/`: 팀 공유용 대표 화면 캡처
-- `CONTRIBUTING.md`, `AGENTS.md`: 협업·커밋 규칙
+Render 환경변수에는 `CHAT_MODE=openai`, `OPENAI_MODEL=gpt-6-luna`, `LLM_TIMEOUT_SECONDS=45`와 API 키를 등록합니다. 로컬 `.env`는 전송하지 않습니다. Python 버전은 `.python-version`을 사용합니다.
 
-후속 작업에서는 임시 세션 저장을 PostgreSQL로 교체하고, 현재 장면·공개된 단서·대화 기록을 전달하는 모델 생성기를 연결합니다. 화면의 API 주소는 현재 동일 출처 상대 경로입니다. Render/Vercel 전용 로직은 게임 서비스에 넣지 않았습니다.
+같은 설정을 담은 `render.yaml`도 제공합니다. Blueprint로 생성할 경우 API 키를 별도로 입력하며, 자동 배포는 꺼져 있습니다. 생성·배포는 Render에서 직접 시작해야 합니다.
+
+배포 후 `/health`, START→준비 장면, 자유대화·반박, 단서 이미지·음향·영상, 최종 선택·엔딩을 확인하세요. 다른 브라우저에서도 접속해 세션이 분리되는지 확인합니다.
+
+공식 안내: [FastAPI 배포](https://render.com/docs/deploy-fastapi), [무료 서비스 제한](https://render.com/docs/free)
+
+## 데이터와 리소스 편집
+
+| 위치 | 내용 |
+| --- | --- |
+| `data/character.json` | 이윤제의 말투·가치관·배경·지식 범위·예시 대화와 시작 장면·첫 인사 |
+| `data/mentor.json` | 스승의 캐릭터 설정 |
+| `data/dialogue-scenes.json` | 자유 입력이 있는 8개 장면의 상대와 상황 |
+| `data/lorebook.json` | 공개 조건·키워드·근거 상태가 있는 세계관 항목 |
+| `services/story.py` | 장면·선택지·계율·단서·이미지·영상 연결 |
+| `services/endings.py` | 팀이 확정한 엔딩 흐름과 결과 분류 |
+| `public/assets/audio/audio-config.json` | 장면별 배경음악·효과음·재생 시작 위치 |
+| `public/assets/images/`, `videos/`, `sounds/` | 게임에서 사용하는 시각·음향 자료 |
+| `public/assets/start-screen/` | 시작 화면 코드와 배경·로고 |
+| `public/assets/fonts/` | Galmuri 글꼴과 SIL Open Font License |
+
+JSON의 인물 설정과 문구는 코드 수정 없이 편집할 수 있습니다. 분기 ID와 공개 조건을 바꿀 때는 해당 이야기 로직도 함께 확인하세요. 확인된 기획과 임시 해석은 데이터의 근거·상태 필드로 구분합니다.
 
 ## 검증
 
 ```powershell
-.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe scripts/check_assets.py
+node --check public/assets/js/app.js
 ```
 
-사용자별 기록 분리, 새로고침·재시작 처리, 단서 중복 방지, 미발견 정보 비공개, 직전 주제 참조, 잘못된 단계 이동, 중복 요청, 다섯 엔딩을 검증합니다. 실제 LLM 품질 검증은 포함하지 않습니다.
+`check_assets.py`는 장면·메뉴·글꼴·음향·영상 참조의 파일 존재 여부, 빈 파일, Linux 대소문자, GitHub 단일 파일 크기 제한을 확인합니다.
 
-서버를 실행한 상태에서, 로컬 Microsoft Edge가 설치되어 있다면 브라우저 흐름도 확인할 수 있습니다.
+모바일·PC UI 검증에는 실행 중인 모의 모드 서버, Playwright와 로컬 Edge가 필요합니다.
 
 ```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
+$env:CHAT_MODE='mock'
+.\.venv\Scripts\python.exe -m uvicorn app:app --port 8000
+# 다른 터미널에서
 .\.venv\Scripts\python.exe scripts/verify_ui.py
 ```
 
-이번 구현에서 서버 테스트 10개와 Edge 브라우저의 전체 플레이 흐름이 통과했습니다. 모바일 390×844, 데스크톱 1280×900에서 화면을 확인했으며 JavaScript 오류·이미지 로딩 실패가 없었습니다. 캡처는 `reference/qa/`에 저장합니다.
+검증 캡처와 보고서는 로컬 `reference/qa/`에 생성되며 Git에 올리지 않습니다. 모의 모드 검증은 실제 모델의 말투·사실성·답변 품질 검증과 구분합니다.
 
-## 다음 작업
+## 현재 저장 범위와 제한
 
-1. 프로듀서의 최신 스토리를 대조하고 장면·단서·대사·분기를 확정합니다.
-2. 콘텐츠와 게임 진행 로직을 분리하고 실제 AI 모델을 연결합니다.
-3. PostgreSQL로 진행 기록을 저장하고 대화 품질·오류 복구를 검증합니다.
-4. Render 배포와 공개 시연을 준비합니다.
+- 서버 세션은 메모리에 보관하며 마지막 이용 후 12시간 만료, 최대 500개입니다. 한 프로세스·한 인스턴스로 실행합니다.
+- 서버 재시작·Render 절전·재배포 시 진행 기록과 대화 맥락이 사라집니다. 영구 DB는 연결하지 않았습니다.
+- Render Free는 요청이 15분 없으면 절전 상태가 될 수 있고 다음 접속 시 준비 시간이 필요합니다.
+- 엔딩 모음은 해당 브라우저·접속 주소의 IndexedDB에 저장합니다. 다른 기기·다른 주소로 자동 공유하지 않으며 브라우저 데이터 삭제 시 사라집니다.
+- 다른 두 후보는 잠긴 빈 슬롯입니다. 장기 기억·사진 전송·임베딩 검색·사용자 계정은 구현 범위에 포함하지 않았습니다.
 
-타이머, 자유 행동의 허용 범위, 상세 계율, 최종 유형 판정은 회의에서 확정합니다.
-커스터마이징·다른 대상자·음성·후속 회차는 후순위입니다.
-
-## 출처
-
-- [팀 Notion 기획·목업](https://app.notion.com/p/jaehakie/TODAY-403ee9a4047c803fbd0de0089c2254a3): 장면 이미지·인물·단서·선택·유형, 검은 배경·금색 버튼·명조체 제목의 디자인 기준
-- [HateSlop 참고 베이스](https://github.com/HateSlop/5-chatbot-base): 프로젝트 범위와 서비스 경계 참고. 이 프로젝트는 FastAPI로 새로 작성했습니다.
-
-회신 문구 일부는 미정인 이야기를 확정하지 않는 범위에서 작성한 시연용 문장입니다. 이미지의 `notion-N.png`는 로컬 식별자이며 만료되는 Notion 다운로드 주소를 사용하지 않습니다. 공개 배포·저장소 공개 전에 팀 콘텐츠의 공개 범위를 확인하세요.
+캐릭터 카드와 Lorebook 구성은 [SillyTavern](https://github.com/SillyTavern/SillyTavern)의 설계를 참고해 자체 구현했습니다. 협업과 커밋 규칙은 [CONTRIBUTING.md](CONTRIBUTING.md)를 따릅니다.
