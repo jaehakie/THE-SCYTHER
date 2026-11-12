@@ -20,9 +20,11 @@ window.EndingCollection = (() => {
     return database;
   }
 
-  const allowedTypes = new Set(["fulvus", "caeruleus", "ruber"]);
+  const badResult = Object.freeze({id:"bad", name:"선택을 포기한 수확자", latin:"", label:"배드엔딩", color:"",
+    description:"선택하지 않은 자에게는 색이 주어지지 않는다."});
+  const allowedTypes = new Set(["fulvus", "caeruleus", "ruber", "bad"]);
   const sceneTypes = {result_fulvus_lie:"fulvus", result_fulvus_truth:"fulvus", result_caeruleus:"caeruleus",
-    result_ruber:"ruber", result_ruber_early:"ruber"};
+    result_ruber:"ruber", result_ruber_early:"ruber", result_bad:"bad"};
   function validBasis(basis) {
     return typeof basis?.content === "string" && basis.content.trim().length > 0 && basis.content.length <= 2000 &&
       typeof basis.subject === "string";
@@ -33,20 +35,25 @@ window.EndingCollection = (() => {
       sceneTypes[record.scene_id] === record.result?.id &&
       [null, "yes", "no"].includes(record.report_answer) &&
       allowedTypes.has(record.result?.id) && typeof record.image === "string" && record.image.startsWith("/assets/images/") &&
-      ((record.result.id === "fulvus" && record.basis === null) || validBasis(record.basis)) &&
+      (record.result.id === "bad" ? record.basis === null && record.journal === null :
+        (record.result.id === "fulvus" && record.basis === null) || validBasis(record.basis)) &&
       Number.isInteger(record.clue_count) && record.clue_count >= 0 && record.clue_count <= 6 &&
       ["name", "latin", "label", "color", "description"].every(key => typeof record.result[key] === "string") &&
       ["label", "record"].every(key => typeof record.ending_grade?.[key] === "string");
   }
 
   function snapshot(view, basis) {
-    if (view.stage !== "result" || !allowedTypes.has(view.result?.id)) return null;
-    const fulvus = view.result.id === "fulvus";
-    if (!fulvus && !validBasis(basis)) return null;
+    if (view.reviewing) return null;
+    const bad = view.stage === "bad_result" && view.scene_id === "result_bad";
+    if (!bad && (view.stage !== "result" || !allowedTypes.has(view.result?.id) || view.result.id === "bad")) return null;
+    const noJournal = bad || view.result.id === "fulvus";
+    if (!noJournal && !validBasis(basis)) return null;
     const record = structuredClone({version:1, id:view.run_id, saved_at:new Date().toISOString(),
-      scene_id:view.scene_id, image:view.image, result:view.result, ending_grade:view.ending_grade,
+      scene_id:view.scene_id, image:view.image, result:bad ? badResult : view.result, ending_grade:view.ending_grade,
       clue_count:view.clue_count, choice_title:view.choice_title, report_answer:view.report_answer,
-      journal:fulvus ? null : view.journal, basis:fulvus ? null : basis});
+      stop_reason:view.stop_reason || null,
+      ending_reason:view.ending_reason || null,
+      journal:noJournal ? null : view.journal, basis:noJournal ? null : basis});
     return valid(record) ? record : null;
   }
 
@@ -73,5 +80,5 @@ window.EndingCollection = (() => {
       transaction.onabort = () => reject(transaction.error || new Error("Ending save failed"));
     });
   }
-  return {snapshot, list, save};
+  return {snapshot, list, save, badResult};
 })();

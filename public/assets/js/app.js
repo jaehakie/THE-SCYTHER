@@ -467,8 +467,14 @@ function resultHTML(view = state, animate = true) {
     '<p class="result-description">' + (animate ? animatedText(result.description, view.scene_id + ':description') : esc(result.description)) + '</p><p class="clue-grade">' + esc(view.ending_grade.label) + ' · 대화 단서 ' + view.clue_count + '/6</p></article>';
 }
 
+function badResultHTML(view = state, animate = true) {
+  const result = view.result?.id === 'bad' ? view.result : window.EndingCollection.badResult;
+  return '<article class="bad-result"><h2>' + esc(result.name) + '</h2><p class="ending-quote">' +
+    (animate ? animatedText(result.description, view.scene_id + ':quote') : esc(result.description)) + '</p></article>';
+}
+
 function endingBasis(view) {
-  if (view.result?.id === "fulvus") return null;
+  if (view.stage === "bad_result" || view.result?.id === "fulvus") return null;
   const content = view.journal?.content;
   return content ? {subject:view.journal.subject, content} : null;
 }
@@ -480,7 +486,7 @@ function basisHTML(basis) {
 }
 
 function endingSaveStatus() {
-  if (!state || state.stage !== "result") return;
+  if (!state || !["result", "bad_result"].includes(state.stage)) return;
   const node = screen.querySelector("#ending-save-status");
   if (!node) return;
   const saved = collectedEndings.has(state.run_id);
@@ -696,7 +702,7 @@ function render(moved = false) {
     body = resultHTML() + resultBasisHTML();
   } else if (state.stage === "bad_result") {
     visual = '<button class="scene-card" data-image="' + esc(state.image) + '" aria-label="결과 이미지 크게 보기">' + picture(state.image, "선택을 포기한 수확자", "result-art") + '</button>';
-    body = '<article class="bad-result"><h2>선택을 포기한 수확자</h2><p class="ending-quote">' + animatedText('선택하지 않은 자에게는 색이 주어지지 않는다.', state.scene_id + ':quote') + '</p></article>';
+    body = badResultHTML() + resultBasisHTML();
     footer = '<button class="primary" data-reset>처음부터 다시 시작</button>';
   } else if (state.stage === "reflection") {
     body = '<article class="ending-reflection">' + picture(state.image, "수확령", "record-seal") + state.messages.map(message => '<p>' + animatedText(message.text, 'message:' + message.scene_id + ':' + message.id) + '</p>').join("") + '</article>';
@@ -908,7 +914,7 @@ function menuModal() {
 
 function endingRecordHTML(record) {
   return '<article class="collected-ending">' + picture(record.image, record.result.name + ' 엔딩', 'collected-ending-image') +
-    resultHTML(record, false) +
+    (record.result.id === "bad" ? '<p class="section-label">배드엔딩</p>' + badResultHTML(record, false) : resultHTML(record, false)) +
     (record.choice_title ? '<p class="collection-choice">나의 선택 · ' + esc(record.choice_title) + '</p>' : '') +
     (record.report_answer ? '<p class="collection-choice">스승에게 한 보고 · ' + (record.report_answer === 'yes' ? '수확했습니다' : '수확하지 않았습니다') + '</p>' : '') +
     (record.result.id !== "fulvus" && record.basis ? basisHTML(record.basis) : '') +
@@ -922,7 +928,7 @@ async function endingsModal(parent = null) {
   try {
     const records = await window.EndingCollection.list();
     if (!dialog.open || modalVersion !== version) return;
-    modal("엔딩 모음", '<p class="collection-info">이 브라우저에 보관한 엔딩 ' + records.length + '개 · 배드엔딩 제외</p>' +
+    modal("엔딩 모음", '<p class="collection-info">이 브라우저에 보관한 엔딩 ' + records.length + '개</p>' +
       (records.length ? records.map(endingRecordHTML).join('') : '<div class="empty-note"><h3>아직 보관한 엔딩이 없습니다</h3><p>이야기의 결과가 이곳에 남습니다.</p></div>') +
       '<button class="secondary" data-menu>임무 메뉴로</button><button class="primary" data-close data-story-close>이야기로 돌아가기</button>', parent);
     dialog.classList.add("ending-collection-dialog");

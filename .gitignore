@@ -24,6 +24,7 @@ Thumbs.db
 !/scripts/check_assets.py
 !/scripts/verify_ui.py
 !/scripts/verify_scene_completion_ui.py
+!/scripts/verify_ending_collection_ui.py
 
 # Superseded artwork and fonts not referenced by the shipped game.
 /public/assets/start-screen/fonts/
