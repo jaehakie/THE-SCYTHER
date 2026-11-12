@@ -3,7 +3,7 @@ from pathlib import Path
 import json
 import os
 
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import TimeoutError as PlaywrightTimeoutError, sync_playwright
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "reference" / "qa"
@@ -13,9 +13,15 @@ BASE = os.environ.get("NOTTODAY_TEST_URL", "http://127.0.0.1:8000")
 
 def ready(page):
     page.wait_for_function("state && !busy")
-    retry = page.locator(".scene-video-play:visible")
-    if retry.count():
-        retry.click()
+    retry = page.locator(".scene-video-play")
+    if retry.count() and retry.is_visible():
+        try:
+            retry.click(timeout=2000)
+        except PlaywrightTimeoutError:
+            # A successful automatic retry can hide the button between the
+            # visibility check and click; only that disappearance is harmless.
+            if retry.count() and retry.is_visible():
+                raise
 
 
 def scene_id(page):
