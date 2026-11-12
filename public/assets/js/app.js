@@ -892,7 +892,7 @@ function notesModal(parent = null) {
 function menuModal() {
   const modeLabel = state?.mode === "mock" ? "모의 응답 모드입니다. 실제 LLM을 사용하지 않습니다." : state?.mode === "openai" ? "입력칸에서는 현재 장면의 인물과 AI 대화를 나눕니다. 명확한 선택 의도는 기존 이야기 흐름으로 이어집니다." : "예시 대화로 진행하는 시연입니다.";
   const cards = [
-    ["단서 노트", "픽셀 아트 단서 노트 아이콘.png", "data-notes"],
+    ["단서 노트", "단서 노트 픽셀 아이콘.png", "data-notes"],
     ["계율 다시 보기", "계율 다시보기 픽셀 봉인 카드.png", "data-rules"],
     ["엔딩 모음", "빈티지 폴라로이드 사신 카드.png", "data-endings"],
     ["처음부터 다시 시작", "레트로 픽셀 새로고침 카드.png", "data-restart-confirm"]

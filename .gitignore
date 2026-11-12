@@ -28,6 +28,7 @@ Thumbs.db
 # Superseded artwork and fonts not referenced by the shipped game.
 /public/assets/start-screen/fonts/
 /public/assets/images/figjam/
+/public/assets/images/픽셀 아트 단서 노트 아이콘.png
 /public/assets/images/스승과 대화/02_스승 복사본.png
 /public/assets/images/스승과 대화/03-04_이윤제_초상 복사본.png
 /public/assets/images/스승과 대화/수확자_남_옆모습 복사본.png
