@@ -1,6 +1,5 @@
 .prep-frame{display:flex;flex:1;min-height:0;flex-direction:column;overflow:hidden}
 .prep-scroll{display:flex;flex-direction:column;gap:16px;padding:20px 22px}
-.prep-notice{display:flex;align-items:center;gap:10px;padding:12px 22px;border-bottom:1px solid var(--line);color:var(--gold-light);font-size:12px}
 .prep-frame .dossier-label{display:block;font-size:12px;color:var(--gold-light)}
 .prep-frame h2{font-weight:700;overflow-wrap:anywhere}
 .prep-frame .prep-footer{display:grid;gap:8px}
@@ -10,15 +9,17 @@
 .message.user:has(.avatar) .message-content{max-width:calc(100% - 44px)}
 .message.user .speaker-line{text-align:right;overflow-wrap:anywhere}
 
-.prep-notice-mark{display:block;width:16px;height:16px;flex:none;border-radius:2px;background:#ffd477;box-shadow:0 0 14px #ffc653,0 0 24px #ffc65366}
 .prep-step-frame{justify-content:space-between}
 .prep-step-content{display:flex;flex:1;min-height:0;flex-direction:column;align-items:center;justify-content:center;padding:22px 14px;text-align:center}
-.prep-emblem{display:grid;place-items:center;width:134px;height:134px;margin:0 auto 19px;border:1px solid #b77a25;border-radius:50%;background:#07172a;box-shadow:0 0 26px #fbaa3430,inset 0 0 22px #dc8c2822}
-.prep-emblem img{width:103px;height:103px;object-fit:contain;filter:drop-shadow(0 0 12px #ffbf4e66)}
+.prep-emblem{width:clamp(180px,30dvh,240px);max-width:70%;flex:none;margin:0 auto 24px}
+.prep-emblem img{display:block;width:100%;height:auto;object-fit:contain;filter:drop-shadow(0 0 12px #ffbf4e22)}
 .prep-step-content h2{margin:0 0 12px;color:#ffd477;font-size:27px;text-shadow:0 0 13px #ffc14c66}
 .prep-step-content>p:last-child{max-width:300px;margin:0;color:#dbc188;font-size:14px;line-height:1.9}
 .prep-guide-content{display:flex;flex-direction:column;justify-content:center;gap:14px}
 .guide-card{padding:18px 17px;border:1px solid #9a6925;border-radius:9px;background:#07172a;box-shadow:0 0 14px #ffad2b1c}
+.prep-confirm-card{animation:prep-confirm-fade 1.1s ease-out both}
+@keyframes prep-confirm-fade{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.prep-confirm-card{animation:none}}
 .guide-card .dossier-label{margin-bottom:3px}
 .guide-card h2{margin-bottom:7px;color:#ffd477;font-size:18px}
 .guide-card p{margin:0;color:#e1ca94;font-size:12px;line-height:1.8;word-break:keep-all}
@@ -40,4 +41,4 @@
 .player-name-actions .text-button{min-height:42px;padding:8px 10px;white-space:nowrap}
 .player-setup-hint{margin:8px 0 0;color:#b58a3e;font-size:11px}
 
-@media(max-width:370px){.prep-emblem{width:116px;height:116px}.prep-emblem img{width:90px;height:90px}.guide-card{padding:15px}}
+@media(max-width:370px){.guide-card{padding:15px}}

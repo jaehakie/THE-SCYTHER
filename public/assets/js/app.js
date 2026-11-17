@@ -128,7 +128,7 @@ function presentationPending() {
       if (panel.hidden || started === undefined || performance.now() - started < HOLOGRAM_DURATION_MS) return true;
       if (panel.getAnimations({subtree:true}).some(animation => animation.playState !== 'finished')) return true;
     }
-    if (Array.from(screen.querySelectorAll('.robe-reveal')).some(node =>
+    if (Array.from(screen.querySelectorAll('.robe-reveal, .prep-confirm-card')).some(node =>
       node.getAnimations().some(animation => animation.playState !== 'finished'))) return true;
   }
   return false;
@@ -634,7 +634,7 @@ function renderPreparation() {
   const profile = window.PlayerProfile.get();
   const options = {screen, title, escapeHTML:esc, playerProfile:profile,
     playerName:() => profile.name, playerImage:window.PlayerProfile.image,
-    prepAsset:file => '/assets/images/harvest/' + file, emblem:state.portraits.logo};
+    prepAsset:file => '/assets/images/harvest/' + file, emblem:'/assets/images/reflection-logo-transparent.png'};
   const pages = window.PreparationPages;
   ({intro:pages.renderCustomizeIntro, appearance:pages.renderPlayerAppearance,
     name:pages.renderPlayerName, confirm:pages.renderPrepGuide})[profile.phase](options);
