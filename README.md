@@ -81,8 +81,10 @@ Copy-Item .env.example .env
 - 서강대학교 생성형AI 미디어&테크 학회 [HateSlop](https://www.instagram.com/hateslop/) 소속 프로젝트 팀 낫TODAY
 ### 김재학 | ENGINEER
 - 서강대학교 수학 & 컴퓨터공학 & 빅데이터사이언스 학사과정
+- GitHub : [@jaehakie](https://github.com/jaehakie)
 ### 임보현 | ENGINEER
 - 서강대학교 아트앤테크놀로지학 학사과정
+- GitHub : [@mischief-jpg](https://github.com/mischief-jpg)
 ### 최송화 | PRODUCER
 - 서강대학교 아트앤테크놀로지학 학사과정
 ### 하태호 | PRODUCER
