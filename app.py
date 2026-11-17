@@ -1,4 +1,4 @@
-"""낫 TODAY 회의용 프로토타입. 실행: python -m uvicorn app:app --reload"""
+"""THE SCYTHER 웹 진입점과 게임·대화 API."""
 
 from pathlib import Path
 import secrets
