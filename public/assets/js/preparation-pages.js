@@ -4,7 +4,6 @@
   function renderCustomizeIntro({screen, title, emblem}) {
     title.textContent = "나의 수확자 만들기";
     screen.innerHTML = `<section class="prep-frame prep-step-frame" aria-label="나의 수확자 만들기">
-      <div class="prep-notice"><span class="prep-notice-mark" aria-hidden="true"></span><span>나의 수확자 만들기</span></div>
       <div class="prep-step-content">
         <div class="prep-emblem"><img src="${emblem}" alt="수확령 문장"></div>
         <h2>나의 수확자 만들기</h2>
@@ -18,7 +17,6 @@
     title.textContent = "나의 수확자 만들기";
     const name = escapeHTML(playerName());
     screen.innerHTML = `<section class="prep-frame prep-customizer" aria-label="나의 수확자 만들기">
-      <div class="prep-notice"><span class="prep-notice-mark" aria-hidden="true"></span><span>나의 수확자 만들기</span></div>
       <div class="scroll-area prep-scroll">
         <div class="player-preview"><img id="player-preview-image" src="${playerImage()}" alt="${name} 프로필"><div><span class="dossier-label">수습 수확자</span><h2 id="player-preview-name">${name}</h2><p>대화 기록에 표시될 모습을 선택하세요.</p></div></div>
         <fieldset class="player-gender"><legend>성별 선택</legend>
@@ -35,7 +33,6 @@
     title.textContent = "이름 입력";
     const name = escapeHTML(playerName());
     screen.innerHTML = `<section class="prep-frame prep-customizer" aria-label="수습 수확자 이름 입력">
-      <div class="prep-notice"><span class="prep-notice-mark" aria-hidden="true"></span><span>이름 선택</span></div>
       <div class="scroll-area prep-scroll">
         <div class="player-preview"><img id="player-preview-image" src="${playerImage()}" alt="${name} 프로필"><div><span class="dossier-label">수확자</span><h2 id="player-name-preview">${name}</h2><p>선택한 이름은 이후 프로필에 표시됩니다.</p></div></div>
         <label class="player-name-label" for="player-name">수확자의 이름</label>
@@ -53,10 +50,9 @@
     title.textContent = "나의 수확자 확인";
     const name = escapeHTML(playerName());
     screen.innerHTML = `<section class="prep-frame prep-step-frame" aria-label="수확자 설정 확인">
-      <div class="prep-notice"><span class="prep-notice-mark" aria-hidden="true"></span><span>설정 확인</span></div>
       <div class="scroll-area prep-scroll prep-guide-content">
         <div class="player-preview"><img src="${playerImage()}" alt="${name} 프로필"><div><span class="dossier-label">수습 수확자</span><h2>${name}</h2><p>견습 회색 로브</p></div></div>
-        <article class="guide-card"><h2>이 모습으로 시작합니다.</h2><p>선택한 모습과 이름이 내 대화 프로필에 표시됩니다.<br>이제 수확자의 계율을 확인하세요.</p></article>
+        <article class="guide-card prep-confirm-card"><h2>이 모습으로 시작합니다.</h2><p>선택한 모습과 이름이 내 대화 프로필에 표시됩니다.<br>이제 수확자의 계율을 확인하세요.</p></article>
       </div>
       <div class="screen-footer prep-footer"><button class="primary" data-finish-prep>계율 보기 →</button></div>
     </section>`;
