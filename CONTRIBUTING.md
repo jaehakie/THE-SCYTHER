@@ -53,7 +53,7 @@ GitHub에서 해당 브랜치 → `main` Pull Request를 열고, 변경 내용�
 .\.venv\Scripts\python.exe -m unittest discover -s tests -v
 ```
 
-화면을 바꿨다면 로컬 서버를 실행해 실제 흐름도 확인합니다. Edge가 설치되어 있으면 `scripts/verify_ui.py`를 사용할 수 있습니다. 실행법은 README에 있습니다.
+화면을 바꿨다면 로컬 서버를 실행해 실제 흐름도 확인합니다. Edge가 설치되어 있으면 `scripts/verify_ui.py`를 사용할 수 있습니다. 실행법은 아래 검증 항목에 있습니다.
 
 - `.venv/`, 캐시, 개인 IDE 설정, 로컬 비밀정보는 올리지 않습니다.
 - API 키·DB 비밀번호는 실제 값 대신 환경변수 이름과 설정 방법만 공유합니다.
