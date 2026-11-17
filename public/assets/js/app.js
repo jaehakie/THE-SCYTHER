@@ -30,7 +30,7 @@ const sceneDrafts = new Map();
 const INTRO_PHOTO_HOLD_MS = 2500;
 const motionPreference = matchMedia("(prefers-reduced-motion: reduce)");
 const textPlayback = {entries:new Map(), queueEnd:0, frame:null, active:false, followTail:false, readKeys:new Set()};
-const progressionControls = '[data-action="advance"], [data-action="forward"], [data-choice], [data-topic], [data-finish-chat], .composer .send, button[form="journal-form"], [data-reset]';
+const progressionControls = '[data-action="advance"], [data-action="forward"], [data-choice], [data-topic], [data-finish-chat], .composer .send, button[form="journal-form"], [data-reset], .prep-footer button';
 const progressionActions = new Set(['advance', 'forward', 'back', 'choose', 'topic', 'chat', 'finish_chat', 'journal']);
 const graphemes = typeof Intl.Segmenter === "function" ? new Intl.Segmenter("ko", {granularity:"grapheme"}) : null;
 const sentences = typeof Intl.Segmenter === "function" ? new Intl.Segmenter("ko", {granularity:"sentence"}) : null;
@@ -120,7 +120,7 @@ function presentationPending() {
     !textPlayback.entries.get(node.dataset.textKey)?.done)) return true;
   if (Array.from(screen.querySelectorAll('video')).some(video =>
     !video.ended && video.dataset.finished !== 'true' && video.dataset.failed !== 'true')) return true;
-  if (Array.from(screen.querySelectorAll('.scene-visual img, .intro-frame img, .record-art img')).some(image => !image.complete)) return true;
+  if (Array.from(screen.querySelectorAll('.scene-visual img, .intro-frame img, .record-art img, .prep-frame img')).some(image => !image.complete)) return true;
   if (!motionPreference.matches) {
     const panel = screen.querySelector('[data-hologram-key]');
     if (panel && panel.dataset.hologramFailed !== 'true') {
@@ -284,6 +284,7 @@ function setState(next, force = false) {
     for (const message of next.messages.slice(0, -2)) textPlayback.readKeys.add('message:' + message.scene_id + ':' + message.id);
   }
   state = next;
+  window.PlayerProfile.sync(next.run_id);
   window.StoryAudio?.setScene(next);
   remainingAtAnchor = state.time_left;
   clockAnchor = performance.now();
@@ -329,10 +330,11 @@ function messageHTML(message) {
   const text = animatedText(message.text, key, message.speaker === "narrator" ? "fade" : "type");
   const playback = playbackAttributes(key);
   if (message.speaker === "narrator") return '<div class="narration"' + playback + '>' + text + illustration + '</div>';
-  const portrait = state.portraits[message.speaker];
+  const customized = message.speaker === "user" && window.PlayerProfile.get()?.complete;
+  const portrait = customized ? window.PlayerProfile.image() : state.portraits[message.speaker];
   return '<div class="message ' + esc(message.speaker) + '"' + playback + '>' +
     (portrait ? picture(portrait, "", "avatar") : "") +
-    '<div class="message-content"><p class="speaker-line">' + esc(message.speaker === "yoonje" ? state.character_name : speakerNames[message.speaker] || message.speaker) +
+    '<div class="message-content"><p class="speaker-line">' + esc(customized ? window.PlayerProfile.name() : message.speaker === "yoonje" ? state.character_name : speakerNames[message.speaker] || message.speaker) +
     '</p><div class="bubble">' + text + '</div>' + illustration + '</div></div>';
 }
 
@@ -623,11 +625,50 @@ function startIntroVideo(media) {
   }
 }
 
+function preparingPlayer() {
+  return state?.scene_id === 'intro5' && !state.reviewing &&
+    !window.PlayerProfile.get()?.complete && Boolean(window.PlayerProfile.get()?.phase);
+}
+
+function renderPreparation() {
+  const profile = window.PlayerProfile.get();
+  const options = {screen, title, escapeHTML:esc, playerProfile:profile,
+    playerName:() => profile.name, playerImage:window.PlayerProfile.image,
+    prepAsset:file => '/assets/images/harvest/' + file, emblem:state.portraits.logo};
+  const pages = window.PreparationPages;
+  ({intro:pages.renderCustomizeIntro, appearance:pages.renderPlayerAppearance,
+    name:pages.renderPlayerName, confirm:pages.renderPrepGuide})[profile.phase](options);
+  backButton.hidden = false;
+  backButton.title = '이전 설정 화면';
+  backButton.setAttribute('aria-label', '이전 설정 화면');
+  if (busy) screen.querySelectorAll('button,input').forEach(element => { element.disabled = true; });
+  updateProgressionControls();
+}
+
+function changePreparation(phase) {
+  window.PlayerProfile.update({phase});
+  render(true);
+  // Moving between settings should not leave keyboard focus on a removed button.
+  const target = screen.querySelector(phase === 'name' ? '#player-name' : '.prep-footer button');
+  target?.focus({preventScroll:true});
+}
+
+function confirmPlayerName() {
+  if (!preparingPlayer() || window.PlayerProfile.get().phase !== 'name' || busy || presentationPending()) return;
+  const input = screen.querySelector('#player-name');
+  if (!input) return;
+  input.setCustomValidity(input.value.trim() ? '' : '이름을 입력해주세요.');
+  if (!input.reportValidity()) return;
+  window.PlayerProfile.update({name:input.value.trim()});
+  changePreparation('confirm');
+}
+
 function render(moved = false) {
   if (!state) return;
   backButton.hidden = !state.can_back;
   backButton.disabled = busy;
   backButton.title = state.back_title ? '이전 장면: ' + state.back_title : '이전 장면 보기';
+  backButton.setAttribute('aria-label', '이전 장면 보기');
   const currentIntro = screen.querySelector(".intro-frame");
   if (state.stage === "intro" && state.video && currentIntro?.dataset.sceneId === state.scene_id) {
     updateProgressionControls();
@@ -647,7 +688,7 @@ function render(moved = false) {
   if (moved) textPlayback.followTail = state.stage === "decision";
   title.textContent = state.title || "문이 열린 순간";
   shell.classList.toggle("silent-scene", state.stage === "silence");
-  shell.classList.toggle("intro-scene", state.stage === "intro");
+  shell.classList.toggle("intro-scene", state.stage === "intro" && !preparingPlayer());
   screen.classList.toggle("exploration-screen", state.stage === "exploration");
   screen.classList.toggle("decision-screen", state.stage === "decision");
   screen.classList.toggle("decision-ready", state.stage === "decision" && state.decision_ready);
@@ -655,6 +696,7 @@ function render(moved = false) {
   screen.classList.toggle("logo-video-screen", logoVideo);
   screen.classList.toggle("logo-video-empty", logoVideo && state.messages.length === 0);
   screen.classList.toggle("immersive-screen", ["decision", "ending", "report", "result", "bad_result"].includes(state.stage) && (!state.video || state.stage === "decision"));
+  if (preparingPlayer()) return renderPreparation();
   let body = "", footer = "", toolbar = "", visual = "";
   if (state.stage === "silence") {
     screen.innerHTML = '<div class="silent-frame">' + picture(state.image, "문을 연 이윤제의 굳은 표정", "") + '</div>';
@@ -778,6 +820,10 @@ async function act(action, value = "") {
   if (busy || !state) return false;
   if (progressionActions.has(action) && presentationPending()) return false;
   if (state.reviewing && !["back", "forward"].includes(action)) return false;
+  if (action === 'advance' && state.scene_id === 'intro5' && !window.PlayerProfile.get()?.complete) {
+    changePreparation(window.PlayerProfile.get()?.phase || 'intro');
+    return false;
+  }
   const sourceScene = state.scene_id;
   const lanternWasOn = state.lantern_on;
   const sentDraft = draft;
@@ -1030,6 +1076,40 @@ document.addEventListener("click", async event => {
     return menuModal();
   }
   if (!state || busy) return;
+  if (preparingPlayer()) {
+    if (button.id === 'back-button') {
+      if (presentationPending()) return;
+      const phase = window.PlayerProfile.get().phase;
+      return changePreparation({intro:null, appearance:'intro', name:'appearance', confirm:'name'}[phase]);
+    }
+    if (button.hasAttribute('data-begin-customization')) return changePreparation('appearance');
+    if (button.dataset.playerGender) {
+      window.PlayerProfile.update({gender:button.dataset.playerGender});
+      render();
+      screen.querySelector('[data-player-gender="' + button.dataset.playerGender + '"]')?.focus();
+      return;
+    }
+    if (button.hasAttribute('data-appearance-next')) return changePreparation('name');
+    if (button.hasAttribute('data-name-clear')) {
+      window.PlayerProfile.update({name:''});
+      render();
+      screen.querySelector('#player-name')?.focus();
+      return;
+    }
+    if (button.hasAttribute('data-finish-prep')) {
+      if (presentationPending()) return;
+      window.PlayerProfile.update({complete:true});
+      const success = await act('advance');
+      if (success) {
+        window.PlayerProfile.update({phase:null});
+        if (window.PlayerProfile.storageFailed()) notify('이 브라우저에서는 프로필을 저장할 수 없어 새로고침하면 설정이 초기화될 수 있습니다.');
+      } else if (state?.scene_id === 'intro5') {
+        window.PlayerProfile.update({complete:false, phase:'confirm'});
+        render();
+      }
+      return;
+    }
+  }
   if (button.id === "back-button") return act("back");
   const menuParent = dialog.classList.contains("mission-menu") && dialog.open ? menuModal : null;
   if (button.hasAttribute("data-endings")) return endingsModal(menuParent || dialogParent);
@@ -1090,10 +1170,20 @@ document.addEventListener("click", async event => {
 });
 
 document.addEventListener("input", event => {
+  if (event.target.id === 'player-name' && preparingPlayer()) {
+    event.target.setCustomValidity('');
+    window.PlayerProfile.update({name:event.target.value});
+    screen.querySelector('#player-name-preview').textContent = window.PlayerProfile.name();
+  }
   if (event.target.id === "message-input") draft = event.target.value;
   if (event.target.id === "journal-content") journalDraft = event.target.value;
 });
 document.addEventListener("submit", async event => {
+  if (event.target.id === 'player-name-form') {
+    event.preventDefault();
+    confirmPlayerName();
+    return;
+  }
   if (event.target.id === "journal-form") {
     event.preventDefault();
     if (!journalDraft.trim() || busy) return;

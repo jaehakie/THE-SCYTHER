@@ -33,6 +33,11 @@ def advance_to(page, target):
     for _ in range(40):
         if scene_id(page) == target:
             return
+        if page.evaluate("preparingPlayer()"):
+            for selector in ('[data-begin-customization]', '[data-appearance-next]', '[data-name-confirm]', '[data-finish-prep]'):
+                page.locator(selector).click()
+            ready(page)
+            continue
         page.locator('[data-action="advance"]').click()
         ready(page)
     raise AssertionError("Scene not reached: " + target)
