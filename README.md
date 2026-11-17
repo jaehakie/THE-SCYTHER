@@ -36,12 +36,9 @@
 <details>
 <summary>엔딩 유형 보기 · 스포일러 포함</summary>
 
-| 유형 | 결과 |
-| --- | --- |
-| 원칙형 | 루베르 · Ruber · 진홍색 |
-| 공감형 | 풀부스 · Fulvus · 금색 |
-| 절충형 | 카이룰레우스 · Caeruleus · 남청색 |
-| 배드엔딩 | 수습 수확자 자격 박탈 |
+| 원칙형 · 공감형 | 절충형 · 배드엔딩 |
+| :---: | :---: |
+| [<img src=".github/images/ending-principle-empathy.png" width="360" alt="9번 엔딩 카드. 원칙형 루베르·진홍색과 공감형 풀부스·금색">](.github/images/ending-principle-empathy.png) | [<img src=".github/images/ending-compromise-bad.png" width="360" alt="10번 엔딩 카드. 절충형 카이룰레우스·남청색과 자격을 잃는 배드엔딩">](.github/images/ending-compromise-bad.png) |
 
 최종 선택과 모은 단서, 이후의 보고에 따라 사건의 전개와 결과가 달라집니다. 일반·배드엔딩 모두 최종 결과 화면에서 엔딩 모음에 보관됩니다.
 
